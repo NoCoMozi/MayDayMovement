@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     <title>May Day Movement</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -263,8 +267,8 @@
                 <div class="col-lg-6 text-center">
                     <h3 class="mb-4">Stay Updated</h3>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Enter your email">
-                        <button class="btn btn-danger">📩 Sign Up</button>
+                        <input type="email" class="form-control" placeholder="Enter your email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required autocomplete="email">
+                        <button class="btn btn-danger" type="button" onclick="if(!this.form.checkValidity()) return false;">📧 Sign Up</button>
                     </div>
                 </div>
             </div>
