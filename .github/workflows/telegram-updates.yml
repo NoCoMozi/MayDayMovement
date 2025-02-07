@@ -1,0 +1,34 @@
+name: Process Telegram Updates
+
+on:
+  repository_dispatch:
+    types: [telegram-update]
+  workflow_dispatch:
+
+jobs:
+  update-website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Process Update
+        run: |
+          python .github/scripts/process_update.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          UPDATE_CONTENT: ${{ github.event.client_payload.content }}
+          UPDATE_DATE: ${{ github.event.client_payload.date }}
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add updates/
+          git add index.html
+          git commit -m "Update from Telegram"
+          git push
