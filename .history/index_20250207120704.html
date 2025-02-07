@@ -1,0 +1,200 @@
+import React, { useState, useEffect } from 'react';
+
+const MayDayWebsite = () => {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const sections = ['home', 'history', 'problem', 'solution', 'involve'];
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentPosition = window.scrollY + 100;
+      sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (currentPosition >= offsetTop && currentPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-red-700 text-white shadow-lg z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-xl font-bold">May Day Movement</div>
+            
+            {/* Mobile menu button */}
+            <button 
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
+
+            {/* Desktop navigation */}
+            <div className="hidden md:flex space-x-8">
+              <button onClick={() => scrollToSection('home')} className={`${activeSection === 'home' ? 'border-b-2' : ''}`}>Home</button>
+              <button onClick={() => scrollToSection('history')} className={`${activeSection === 'history' ? 'border-b-2' : ''}`}>History</button>
+              <button onClick={() => scrollToSection('problem')} className={`${activeSection === 'problem' ? 'border-b-2' : ''}`}>The Problem</button>
+              <button onClick={() => scrollToSection('solution')} className={`${activeSection === 'solution' ? 'border-b-2' : ''}`}>Our Solution</button>
+              <button onClick={() => scrollToSection('involve')} className={`${activeSection === 'involve' ? 'border-b-2' : ''}`}>Get Involved</button>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          {isMenuOpen && (
+            <div className="md:hidden pb-4">
+              <button onClick={() => scrollToSection('home')} className="block py-2">Home</button>
+              <button onClick={() => scrollToSection('history')} className="block py-2">History</button>
+              <button onClick={() => scrollToSection('problem')} className="block py-2">The Problem</button>
+              <button onClick={() => scrollToSection('solution')} className="block py-2">Our Solution</button>
+              <button onClick={() => scrollToSection('involve')} className="block py-2">Get Involved</button>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="pt-16">
+        <div className="relative h-screen bg-gray-900 text-white">
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">May 1st – The Day Workers Take Back Their Power</h1>
+            <p className="text-xl md:text-2xl mb-8">International Workers' Day was born in the U.S. but erased from our culture. It's time to reclaim it.</p>
+            <button 
+              onClick={() => scrollToSection('involve')}
+              className="bg-red-600 hover:bg-red-700 text-white text-lg px-8 py-3 rounded-full transform transition hover:scale-105"
+            >
+              📢 Join the Movement
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* History Section */}
+      <section id="history" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">History of International Workers' Day</h2>
+          <div className="max-w-3xl mx-auto">
+            <p className="mb-4">The Haymarket Affair of 1886 sparked a global labor movement that would forever change workers' rights. As workers fought for an 8-hour workday, their struggle led to the establishment of May Day as International Workers' Day.</p>
+            <p className="mb-4">Today, May Day is celebrated in over 80 countries worldwide as a public holiday - except in the United States, where its origins have been deliberately obscured.</p>
+            <p>The erasure of May Day from American consciousness was a calculated effort to weaken labor solidarity and disconnect American workers from the global labor movement.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section id="problem" className="py-20 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">The Problem</h2>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-xl font-semibold mb-4">Undermined Labor Power</h3>
+              <p>Corporate and political forces have systematically weakened workers' collective bargaining power through anti-union legislation and propaganda.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-xl font-semibold mb-4">Worker Division</h3>
+              <p>Workers are increasingly isolated and divided, making it harder to organize and fight for better conditions collectively.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-xl font-semibold mb-4">Forgotten History</h3>
+              <p>The erasure of May Day from American consciousness has disconnected workers from their historical power and global solidarity.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-xl font-semibold mb-4">Systemic Division</h3>
+              <p>The current system thrives by pitting workers against each other, preventing unified action for better conditions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Solution Section */}
+      <section id="solution" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Our Solution</h2>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <div className="border-l-4 border-red-600 pl-4">
+              <h3 className="text-xl font-semibold mb-2">Reclaim May Day</h3>
+              <p>We're working to normalize May 1st as a day of worker solidarity and collective action in the United States.</p>
+            </div>
+            <div className="border-l-4 border-red-600 pl-4">
+              <h3 className="text-xl font-semibold mb-2">National Action</h3>
+              <p>Organizing a coordinated national "sick-out" and spending freeze to demonstrate worker power.</p>
+            </div>
+            <div className="border-l-4 border-red-600 pl-4">
+              <h3 className="text-xl font-semibold mb-2">Decentralized Movement</h3>
+              <p>Building a movement that leverages diverse talents and abilities across all sectors of the workforce.</p>
+            </div>
+            <div className="border-l-4 border-red-600 pl-4">
+              <h3 className="text-xl font-semibold mb-2">United Message</h3>
+              <p>Connecting local actions under a unified national message while respecting regional needs and differences.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Get Involved Section */}
+      <section id="involve" className="py-20 bg-gray-900 text-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Get Involved</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Spread the Message</h3>
+                <p>Share our message through social media, flyers, and word-of-mouth. Every conversation counts.</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Stay Home on May 1st</h3>
+                <p>Join the national sick-out and spending freeze to demonstrate worker solidarity.</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Join Local Actions</h3>
+                <p>Find or organize May Day events in your community. Connect with other workers.</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Contact Your Union</h3>
+                <p>Encourage your union to participate in May Day actions and support the movement.</p>
+              </div>
+            </div>
+
+            {/* Email Signup */}
+            <div className="max-w-xl mx-auto text-center">
+              <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
+              <div className="flex flex-col md:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-grow px-4 py-2 rounded-lg text-gray-900"
+                />
+                <button className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg transform transition hover:scale-105">
+                  📩 Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default MayDayWebsite;
